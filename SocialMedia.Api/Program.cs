@@ -7,6 +7,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region Connection Database
+
+builder.Services.AddDbContext<SocialMediaContext>(option =>
+    option.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly(typeof(SocialMediaContext).Assembly.FullName)));
+
+#endregion
 
 #region Dependency Injection
 

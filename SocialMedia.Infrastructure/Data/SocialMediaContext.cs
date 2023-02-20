@@ -1,0 +1,20 @@
+﻿
+namespace SocialMedia.Infrastructure.Data
+{
+    public class SocialMediaContext : DbContext
+    {
+        public SocialMediaContext()
+        {
+
+        }
+
+        public SocialMediaContext(DbContextOptions<SocialMediaContext> options):base(options)
+        {                                                              
+
+        }
+
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+    }
+}
