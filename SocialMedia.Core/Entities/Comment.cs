@@ -5,7 +5,7 @@ namespace SocialMedia.Core.Entities;
 public partial class Comment : BaseEntity
 {
     public string Description { get; set; }
-    public DateTime Date { get; set; }
+    public DateTime Date { get; set; } = DateTime.Now;
     public bool IsActive { get; set; }
 
     public int PostId { get; set; }
