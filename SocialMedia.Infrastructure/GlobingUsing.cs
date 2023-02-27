@@ -5,3 +5,4 @@ global using SocialMedia.Infrastructure.Data;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using AutoMapper;
 global using SocialMedia.Core.DTOS;
+global using FluentValidation;
