@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<Post> builder)
         {
-            builder.ToTable(nameof(Post));
+            builder.ToTable("Posts");
 
             builder.HasKey(x => x.Id);
 

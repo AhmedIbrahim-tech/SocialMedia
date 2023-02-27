@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable(nameof(User));
+            builder.ToTable("Users");
             builder.HasKey(x => x.Id);
             builder.Property(e => e.FirstName)
                     .IsRequired()

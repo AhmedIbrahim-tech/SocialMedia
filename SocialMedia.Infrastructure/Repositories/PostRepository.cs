@@ -18,8 +18,13 @@ namespace SocialMedia.Infrastructure.Repositories
 
         public async Task<Post> GetPost(int id)
         {
-            var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == id);
-            return post;
+            return await _context.Posts.FirstOrDefaultAsync(x=>x.Id == id);
+        }
+
+        public async Task<int> InsertPost(Post dto)
+        {
+            _context.Posts.Add(dto);
+            return await _context.SaveChangesAsync();
         }
     }
 }

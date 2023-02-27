@@ -1,4 +1,5 @@
 ﻿
+using SocialMedia.Infrastructure.Data.Configurations;
 using System.Reflection;
 
 namespace SocialMedia.Infrastructure.Data
@@ -19,7 +20,10 @@ namespace SocialMedia.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

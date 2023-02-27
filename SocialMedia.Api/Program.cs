@@ -22,6 +22,21 @@ builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 #endregion
 
+#region NewtonsoftJson
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
+
+#endregion
+
+#region Auto mapper
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

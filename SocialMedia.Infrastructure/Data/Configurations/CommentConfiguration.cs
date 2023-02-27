@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
-            builder.ToTable(nameof(Comment));
+            builder.ToTable("Comments");
 
             builder.HasKey(x => x.Id);
 
