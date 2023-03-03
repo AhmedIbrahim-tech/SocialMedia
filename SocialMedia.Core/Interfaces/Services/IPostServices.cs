@@ -1,10 +1,6 @@
-﻿
-
-
-
-namespace SocialMedia.Core.Interfaces
+﻿namespace SocialMedia.Core.Interfaces.Services
 {
-    public interface IPostRepository
+    public interface IPostServices
     {
         Task<BaseGenericResult<IEnumerable<Post>>> GetPosts();
         Task<BaseGenericResult<Post>> GetPost(int id);

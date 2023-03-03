@@ -1,8 +1,4 @@
 ﻿
-
-using SocialMedia.Core.Entities;
-using System.Net;
-
 namespace SocialMedia.Infrastructure.Repositories
 {
     public class PostRepository : IPostRepository
@@ -38,11 +34,7 @@ namespace SocialMedia.Infrastructure.Repositories
         }
 
 
-        public async Task<BaseGenericResult<int>> SavePost(Post dto)
-        {
-            var result = dto.Id != 0  ? await EditPost(dto) : await InsertPost(dto);
-            return result;
-        }
+
 
         public async Task<BaseGenericResult<int>> InsertPost(Post dto)
         {

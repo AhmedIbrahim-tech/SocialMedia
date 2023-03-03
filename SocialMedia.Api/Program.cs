@@ -19,6 +19,10 @@ builder.Services.AddDbContext<SocialMediaContext>(option =>
 #region Dependency Injection
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IPostServices, PostServices>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 #endregion
 
