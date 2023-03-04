@@ -10,39 +10,52 @@
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Post>> GetPosts()
+        public IEnumerable<Post> GetPosts()
         {
-            return await _unitOfWork.Post.GetAll();
+            return _unitOfWork.PostRepository.GetAll();
         }
 
         public async Task<Post> GetPost(int id)
         {
-            return await _unitOfWork.Post.GetById(id);
+            return await _unitOfWork.PostRepository.GetById(id);
         }
 
-        public async Task<int> SavePost(Post dto)
+        //public async Task<int> SavePost(Post dto)
+        //{
+        //    var result = dto.Id != 0 ? await EditPost(dto) : await InsertPost(dto);
+        //    return result;
+        //}
+
+        public async Task<bool> EditPost(Post dto)
         {
-            var result = dto.Id != 0 ? await EditPost(dto) : await InsertPost(dto);
-            return result;
+            _unitOfWork.PostRepository.Edit(dto);
+            await _unitOfWork.SaveChangeAsync();
+            return true;
         }
 
-        public async Task<int> EditPost(Post dto)
+        public async Task InsertPost(Post post)
         {
-            return await _unitOfWork.Post.Edit(dto);
+            var currentUser = await _unitOfWork.UserRepository.GetById(post.UserId);
+            var userPost = await _unitOfWork.PostRepository.GetPostsbyUser(post.UserId);
+            if (userPost.Count() < 10)
+            {
+                var lastPost = userPost.OrderByDescending(x=>x.Date).FirstOrDefault();
+                if ((DateTime.Now - lastPost.Date).TotalDays < 7)
+                {
+                    throw new BusinessExceptions("You are not able to Publish the Post");
+                }
+            }
+            if(currentUser == null) { throw new BusinessExceptions("This's User Doesn't Exit"); }
+            if(post.Description.Contains("sex")) { throw new BusinessExceptions("This's Content not allowed"); }
+            await _unitOfWork.PostRepository.Add(post);
+            await _unitOfWork.SaveChangeAsync();
         }
 
-        public async Task<int> InsertPost(Post post)
-        {
-            var currentUser = await _unitOfWork.User.GetById(post.UserId);
-            if(currentUser == null) { throw new Exception("This's User Doesn't Exit"); }
-            if(post.Description.Contains("sex")) { throw new Exception("This's Content not allowed"); }
-            return await _unitOfWork.Post.Add(post);
-        }
 
-
-        public async Task<int> DeletePost(int id)
+        public async Task<bool> DeletePost(int id)
         {
-            return await _unitOfWork.Post.Delete(id);
+            await _unitOfWork.PostRepository.Delete(id);
+            return true;
         }
 
 

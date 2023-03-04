@@ -14,15 +14,15 @@ namespace SocialMedia.Infrastructure.Repositories
         {
             this._context = context;
         }
-        public IGenericRepository<Post> Post => Post ?? new GenericRepository<Post>(_context);
+        public IPostRepository PostRepository => PostRepository ?? new PostRepository(_context);
 
-        public IGenericRepository<User> User => User ?? new GenericRepository<User>(_context);
+        public IGenericRepository<User> UserRepository => UserRepository ?? new GenericRepository<User>(_context);
 
-        public IGenericRepository<Comment> Comment => Comment ?? new GenericRepository<Comment>(_context);
+        public IGenericRepository<Comment> CommentRepository => CommentRepository ?? new GenericRepository<Comment>(_context);
 
         public void Dispose()
         {
-            if (_context is not null)
+            if (_context != null)
             {
                 _context.Dispose();
             }

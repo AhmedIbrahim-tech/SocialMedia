@@ -2,9 +2,9 @@
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<Post> Post { get; }
-        IGenericRepository<User> User { get; }
-        IGenericRepository<Comment> Comment { get; }
+        IPostRepository PostRepository { get; }
+        IGenericRepository<User> UserRepository { get; }
+        IGenericRepository<Comment> CommentRepository { get; }
 
         void SaveChange();
         Task SaveChangeAsync();

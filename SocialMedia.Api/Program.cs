@@ -1,3 +1,5 @@
+using SocialMedia.Infrastructure.Validators;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,17 +22,18 @@ builder.Services.AddDbContext<SocialMediaContext>(option =>
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostServices, PostServices>();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 #endregion
 
 #region NewtonsoftJson
 
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<GlobalExceptionFilter>();
+}).AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });

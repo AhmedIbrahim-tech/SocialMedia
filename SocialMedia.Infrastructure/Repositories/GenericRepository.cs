@@ -8,33 +8,31 @@
         {
             this._context = context;
         }
-        public async Task<int> Add(T entity)
-        {
-            _context.Set<T>().Add(entity);
-            return await _context.SaveChangesAsync();
-        }
 
-        public async Task<int> Delete(int id)
+        public IEnumerable<T> GetAll()
         {
-            T CurrentEntity = await GetById(id);
-            _context.Set<T>().Remove(CurrentEntity);
-            return await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> Edit(T entity)
-        {
-            _context.Set<T>().Update(entity);
-            return await _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<T>> GetAll()
-        {
-            return await _context.Set<T>().ToListAsync();
+            return _context.Set<T>().AsEnumerable();
         }
 
         public async Task<T> GetById(int id)
         {
             return await _context.Set<T>().FindAsync(id);
+        }
+
+        public async Task Add(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+        }
+
+        public void Edit(T entity)
+        {
+            _context.Set<T>().Update(entity);
+        }
+
+        public async Task Delete(int id)
+        {
+            T CurrentEntity = await GetById(id);
+            _context.Set<T>().Remove(CurrentEntity);
         }
     }
 }

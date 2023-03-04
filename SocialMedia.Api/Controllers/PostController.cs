@@ -1,4 +1,5 @@
-﻿using SocialMedia.Core.Interfaces.Services;
+﻿using SocialMedia.Core.DTOS;
+using SocialMedia.Core.Interfaces.Services;
 
 namespace SocialMedia.Api.Controllers
 {
@@ -22,11 +23,11 @@ namespace SocialMedia.Api.Controllers
         #region Get Posts
 
         [HttpGet]
-        public async Task<IActionResult> GetPosts()
+        public IActionResult GetPosts()
         {
-            var Posts = await _postServices.GetPosts();
+            var Posts = _postServices.GetPosts();
             var postDto = _mapper.Map<IEnumerable<PostDto>>(Posts);
-            return StatusCode(200, postDto);
+            return Ok(postDto);
         }
 
         #endregion
@@ -44,38 +45,38 @@ namespace SocialMedia.Api.Controllers
         #endregion
 
         #region Save (Edit & Create ) Post
-        [HttpPost]
-        public async Task<IActionResult> Save(PostDto postDto)
-        {
-            var post = _mapper.Map<Post>(postDto);
-            var result = await _postServices.SavePost(post);
-            return Ok(result);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Save(PostDto postDto)
+        //{
+        //    var post = _mapper.Map<Post>(postDto);
+        //    var result = await _postServices.SavePost(post);
+        //    return Ok(result);
+        //}
         #endregion
 
         #region Insert Post
 
-        //[HttpPost]
-        //public async Task<IActionResult> Post(PostDto postDto)
-        //{
-        //    var post = _mapper.Map<Post>(postDto);
-        //    await _postServices.InsertPost(post);
-        //    return Ok(postDto);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Post(PostDto postDto)
+        {
+            var post = _mapper.Map<Post>(postDto);
+            await _postServices.InsertPost(post);
+            return Ok(postDto);
+        }
 
         #endregion
 
         #region Edit Post
 
-        //[HttpPut]
-        //public async Task<IActionResult> Put(int id , PostDto postDto)
-        //{
-        //    var post = _mapper.Map<Post>(postDto);
-        //    post.Id = id;
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, PostDto postDto)
+        {
+            var post = _mapper.Map<Post>(postDto);
+            post.Id = id;
 
-        //    await _postServices.EditPost(post);
-        //    return Ok(postDto);
-        //}
+            await _postServices.EditPost(post);
+            return Ok(postDto);
+        }
 
         #endregion
 
