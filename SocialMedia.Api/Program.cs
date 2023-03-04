@@ -17,6 +17,8 @@ builder.Services.AddDbContext<SocialMediaContext>(option =>
 #endregion
 
 #region Dependency Injection
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostServices, PostServices>();

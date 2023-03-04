@@ -3,48 +3,46 @@
 
     public class PostServices : IPostServices
     {
-        private readonly IPostRepository _postRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PostServices(IPostRepository postRepository , IUserRepository userRepository)
+        public PostServices(IUnitOfWork unitOfWork)
         {
-            this._postRepository = postRepository;
-            this._userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<BaseGenericResult<IEnumerable<Post>>> GetPosts()
+        public async Task<IEnumerable<Post>> GetPosts()
         {
-            return await _postRepository.GetPosts();
+            return await _unitOfWork.Post.GetAll();
         }
 
-        public async Task<BaseGenericResult<Post>> GetPost(int id)
+        public async Task<Post> GetPost(int id)
         {
-            return await _postRepository.GetPost(id);
+            return await _unitOfWork.Post.GetById(id);
         }
 
-        public async Task<BaseGenericResult<int>> SavePost(Post dto)
+        public async Task<int> SavePost(Post dto)
         {
             var result = dto.Id != 0 ? await EditPost(dto) : await InsertPost(dto);
             return result;
         }
 
-        public async Task<BaseGenericResult<int>> EditPost(Post dto)
+        public async Task<int> EditPost(Post dto)
         {
-            return await _postRepository.EditPost(dto);
+            return await _unitOfWork.Post.Edit(dto);
         }
 
-        public async Task<BaseGenericResult<int>> InsertPost(Post post)
+        public async Task<int> InsertPost(Post post)
         {
-            var currentUser = await _userRepository.GetUser(post.UserId);
+            var currentUser = await _unitOfWork.User.GetById(post.UserId);
             if(currentUser == null) { throw new Exception("This's User Doesn't Exit"); }
             if(post.Description.Contains("sex")) { throw new Exception("This's Content not allowed"); }
-            return await _postRepository.InsertPost(post);
+            return await _unitOfWork.Post.Add(post);
         }
 
 
-        public async Task<BaseGenericResult<bool>> DeletePost(int id)
+        public async Task<int> DeletePost(int id)
         {
-            return await _postRepository.DeletePost(id);
+            return await _unitOfWork.Post.Delete(id);
         }
 
 

@@ -2,11 +2,11 @@
 {
     public interface IPostServices
     {
-        Task<BaseGenericResult<IEnumerable<Post>>> GetPosts();
-        Task<BaseGenericResult<Post>> GetPost(int id);
-        Task<BaseGenericResult<int>> SavePost(Post dto);
-        Task<BaseGenericResult<int>> InsertPost(Post dto);
-        Task<BaseGenericResult<int>> EditPost(Post dto);
-        Task<BaseGenericResult<bool>> DeletePost(int id);
+        Task<IEnumerable<Post>> GetPosts();
+        Task<Post> GetPost(int id);
+        Task<int> SavePost(Post dto);
+        Task<int> InsertPost(Post dto);
+        Task<int> EditPost(Post dto);
+        Task<int> DeletePost(int id);
     }
 }
