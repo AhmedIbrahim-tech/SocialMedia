@@ -1,8 +1,10 @@
-﻿namespace SocialMedia.Core.Interfaces.Services
+﻿using SocialMedia.Core.CustomEntities;
+
+namespace SocialMedia.Core.Interfaces.Services
 {
     public interface IPostServices
     {
-        IEnumerable<Post> GetPosts();
+        PagedList<Post> GetPosts(PostQueryFilter filters);
         Task<Post> GetPost(int id);
         Task<bool> InsertPost(Post dto);
         Task<bool> EditPost(Post dto);

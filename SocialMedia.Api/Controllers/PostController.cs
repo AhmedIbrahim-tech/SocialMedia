@@ -1,5 +1,6 @@
-﻿using SocialMedia.Core.DTOS;
-using SocialMedia.Core.Responses;
+﻿using Newtonsoft.Json;
+using SocialMedia.Core.CustomEntities;
+using SocialMedia.Core.QueryFilters;
 using System.Net;
 
 namespace SocialMedia.Api.Controllers
@@ -24,14 +25,28 @@ namespace SocialMedia.Api.Controllers
         #region Get Posts
 
         [HttpGet]
-        public IActionResult GetPosts()
+        //[ProducesResponseType((int)HttpStatusCode.OK)]
+        //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public IActionResult GetPosts([FromQuery] PostQueryFilter filters)
         {
-            var Posts = _postServices.GetPosts();
+            var posts = _postServices.GetPosts(filters);
 
-            var postdto = _mapper.Map<IEnumerable<PostDTO>>(Posts);
+            var postdto = _mapper.Map<IEnumerable<PostDTO>>(posts);
 
             var response = new BaseGenericResult<IEnumerable<PostDTO>>(true, (int)HttpStatusCode.OK, "Data Loading Success", postdto);
+            var metadata = new
+            {
+                posts.TotalCount ,
+                posts.PageSize ,
+                posts.CurrentPage ,
+                posts.TotalPages ,
+                posts.HasNextPage ,
+                posts.HasPreviousPage ,
+                //NextPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString(),
+                //PreviousPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString()
+            };
 
+                Response.Headers.Add("X-Pagination" , JsonConvert.SerializeObject(metadata));
             return StatusCode(response.StatusCode, response);
  
             #region Old Syntax

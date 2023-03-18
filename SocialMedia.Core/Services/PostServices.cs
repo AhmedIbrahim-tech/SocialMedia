@@ -1,4 +1,7 @@
-﻿namespace SocialMedia.Core.Services;
+﻿using SocialMedia.Core.CustomEntities;
+using SocialMedia.Core.Entities;
+
+namespace SocialMedia.Core.Services;
 
 
 public class PostServices : IPostServices
@@ -10,9 +13,25 @@ public class PostServices : IPostServices
         _unitOfWork = unitOfWork;
     }
 
-    public IEnumerable<Post> GetPosts()
+    public PagedList<Post> GetPosts(PostQueryFilter filters)
     {
-        return _unitOfWork.PostRepository.GetAll();
+        var posts = _unitOfWork.PostRepository.GetAll();
+        if (filters.UserId != null)
+        {
+            posts = posts.Where(x => x.UserId == filters.UserId);
+        }
+        if (filters.Date != null)
+        {
+            posts = posts.Where(x => x.Date.ToShortDateString() == filters.Date?.ToShortDateString());
+        }
+        if (filters.Description != null)
+        {
+            posts = posts.Where(x => x.Description.ToLower() == filters.Description.ToLower());
+        }
+
+        var pagedPosts = PagedList<Post>.Create(posts, filters.PageNumber, filters.PageSize);
+
+        return pagedPosts;
     }
 
     public async Task<Post> GetPost(int id)
@@ -60,6 +79,5 @@ public class PostServices : IPostServices
         await _unitOfWork.SaveChangeAsync();
         return true;
     }
-
 
 }
