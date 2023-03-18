@@ -3,7 +3,7 @@
 ## This's a Demo Project (.NET API)
 
 
-##[Features of This Project]
+[Features of This Project]
 - Clean Architecture
 - Dependency Injection _ EF Core
 - Fluent Api in EF Core
@@ -21,7 +21,7 @@
 - Storing Hashing Passwords
 
 
-##[Technology]
+[Technology]
 - .NET 7
 - SQL Server
 - EF Core 
