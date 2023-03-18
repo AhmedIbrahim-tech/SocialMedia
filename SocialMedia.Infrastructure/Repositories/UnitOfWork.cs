@@ -6,6 +6,7 @@ public class UnitOfWork : IUnitOfWork
     private readonly IPostRepository _postRepository;
     private readonly IGenericRepository<User> _userRepository;
     private readonly IGenericRepository<Comment> _commentRepository;
+    private readonly ISecurityRepository _securityRepository;
 
     public UnitOfWork(SocialMediaContext context)
     {
@@ -17,6 +18,8 @@ public class UnitOfWork : IUnitOfWork
 
     public IGenericRepository<Comment> CommentRepository => _commentRepository ?? new GenericRepository<Comment>(_context);
 
+    public ISecurityRepository SecurityRepository => _securityRepository ?? new SecurityRepository(_context);
+
     public void Dispose()
     {
         if (_context != null)
@@ -25,12 +28,12 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public void SaveChange()
+    public void SaveChanges()
     {
         _context.SaveChanges();
     }
 
-    public async Task SaveChangeAsync()
+    public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
     }

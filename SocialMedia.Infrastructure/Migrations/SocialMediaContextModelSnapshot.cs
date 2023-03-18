@@ -124,7 +124,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Security", (string)null);
+                    b.ToTable("Securities", (string)null);
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Entities.User", b =>

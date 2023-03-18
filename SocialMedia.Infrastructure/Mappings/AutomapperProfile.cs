@@ -5,5 +5,6 @@ public class AutomapperProfile : Profile
     public AutomapperProfile()
     {
         CreateMap<Post, PostDTO>().ReverseMap();
+        CreateMap<Security, SecurityDto>().ReverseMap();
     }
 }

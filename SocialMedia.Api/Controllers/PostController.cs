@@ -25,9 +25,10 @@ namespace SocialMedia.Api.Controllers
         /// </summary>
         /// <param name="filters">Filters to apply</param>
         /// <returns></returns>
-        [HttpGet]
+        
         //[ProducesResponseType((int)HttpStatusCode.OK)]
         //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [HttpGet]
         public IActionResult GetPosts([FromQuery] PostQueryFilter filters)
         {
             var posts = _postServices.GetPosts(filters);

@@ -15,3 +15,4 @@ global using SocialMedia.Infrastructure.Filters;
 global using Newtonsoft.Json;
 global using SocialMedia.Core.CustomEntities;
 global using SocialMedia.Core.QueryFilters;
+global using Microsoft.AspNetCore.Authorization;

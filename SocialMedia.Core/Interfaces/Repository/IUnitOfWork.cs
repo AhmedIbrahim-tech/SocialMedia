@@ -5,8 +5,9 @@
         IPostRepository PostRepository { get; }
         IGenericRepository<User> UserRepository { get; }
         IGenericRepository<Comment> CommentRepository { get; }
+        ISecurityRepository SecurityRepository { get; }
 
-        void SaveChange();
-        Task SaveChangeAsync();
+        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

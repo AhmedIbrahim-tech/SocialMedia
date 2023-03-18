@@ -12,8 +12,8 @@ using SocialMedia.Infrastructure.Data;
 namespace SocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialMediaContext))]
-    [Migration("20230316085121_InitalizeCreate")]
-    partial class InitalizeCreate
+    [Migration("20230318121429_InitialCreateTables")]
+    partial class InitialCreateTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -127,7 +127,7 @@ namespace SocialMedia.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Security", (string)null);
+                    b.ToTable("Securities", (string)null);
                 });
 
             modelBuilder.Entity("SocialMedia.Core.Entities.User", b =>

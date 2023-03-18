@@ -53,7 +53,7 @@ public class PostServices : IPostServices
     public async Task<bool> EditPost(Post dto)
     {
         await _unitOfWork.PostRepository.Edit(dto);
-        await _unitOfWork.SaveChangeAsync();
+        await _unitOfWork.SaveChangesAsync();
         return true;
     }
 
@@ -73,7 +73,7 @@ public class PostServices : IPostServices
             }
         }
         await _unitOfWork.PostRepository.Add(dto);
-        await _unitOfWork.SaveChangeAsync();
+        await _unitOfWork.SaveChangesAsync();
         return true;
     }
 
@@ -81,7 +81,7 @@ public class PostServices : IPostServices
     public async Task<bool> DeletePost(int id)
     {
         await _unitOfWork.PostRepository.Delete(id);
-        await _unitOfWork.SaveChangeAsync();
+        await _unitOfWork.SaveChangesAsync();
         return true;
     }
 

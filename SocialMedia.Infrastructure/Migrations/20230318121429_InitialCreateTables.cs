@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SocialMedia.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalizeCreate : Migration
+    public partial class InitialCreateTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Security",
+                name: "Securities",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,7 +24,7 @@ namespace SocialMedia.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Security", x => x.Id);
+                    table.PrimaryKey("PK_Securities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,7 @@ namespace SocialMedia.Infrastructure.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Security");
+                name: "Securities");
 
             migrationBuilder.DropTable(
                 name: "Posts");

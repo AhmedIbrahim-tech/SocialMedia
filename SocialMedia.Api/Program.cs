@@ -1,6 +1,9 @@
 
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,10 +58,12 @@ builder.Services.AddDbContext<SocialMediaContext>(option =>
 #region Dependency Injection
 
 builder.Services.AddTransient<IPostServices, PostServices>();
-builder.Services.AddTransient<IPostRepository, PostRepository>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddTransient<IPostRepository, PostRepository>();
+//builder.Services.AddTransient<IUserRepository, UserRepository>();
+//builder.Services.AddScoped<ISecurityRepository, SecurityRepository>();
 
 #endregion
 
@@ -86,6 +91,29 @@ builder.Services.AddSwaggerGen(options =>
 
 #endregion
 
+#region JWT
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Authentication:Issuer"],
+        ValidAudience = builder.Configuration["Authentication:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:SecretKey"]))
+    };
+
+});
+
+#endregion
+
 
 var app = builder.Build();
 
@@ -98,6 +126,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
