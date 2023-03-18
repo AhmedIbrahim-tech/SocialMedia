@@ -1,9 +1,9 @@
 # SocialMedia
 
-- This's a Demo Project 
-Features of This Project 
+## This's a Demo Project 
 
-[Implementing]
+
+##[Features of This Project]
 - Clean Architecture
 - Dependency Injection _ EF Core
 - Fluent Api in EF Core
@@ -21,7 +21,7 @@ Features of This Project
 - Storing Hashing Passwords
 
 
-[Technology]
+##[Technology]
 - .NET 7
 - SQL Server
 - EF Core 
