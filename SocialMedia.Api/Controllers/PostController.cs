@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using SocialMedia.Core.CustomEntities;
-using SocialMedia.Core.QueryFilters;
-using System.Net;
+﻿using System.Net;
 
 namespace SocialMedia.Api.Controllers
 {
@@ -23,7 +20,11 @@ namespace SocialMedia.Api.Controllers
         #endregion
 
         #region Get Posts
-
+        /// <summary>
+        /// return all posts
+        /// </summary>
+        /// <param name="filters">Filters to apply</param>
+        /// <returns></returns>
         [HttpGet]
         //[ProducesResponseType((int)HttpStatusCode.OK)]
         //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -33,22 +34,24 @@ namespace SocialMedia.Api.Controllers
 
             var postdto = _mapper.Map<IEnumerable<PostDTO>>(posts);
 
-            var response = new BaseGenericResult<IEnumerable<PostDTO>>(true, (int)HttpStatusCode.OK, "Data Loading Success", postdto);
-            var metadata = new
+            var metadata = new Metadata
             {
-                posts.TotalCount ,
-                posts.PageSize ,
-                posts.CurrentPage ,
-                posts.TotalPages ,
-                posts.HasNextPage ,
-                posts.HasPreviousPage ,
+                TotalCount = posts.TotalCount,
+                PageSize = posts.PageSize,
+                CurrentPage = posts.CurrentPage,
+                TotalPages = posts.TotalPages,
+                HasNextPage = posts.HasNextPage,
+                HasPreviousPage = posts.HasPreviousPage,
                 //NextPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString(),
                 //PreviousPageUrl = _uriService.GetPostPaginationUri(filters, Url.RouteUrl(nameof(GetPosts))).ToString()
             };
-
-                Response.Headers.Add("X-Pagination" , JsonConvert.SerializeObject(metadata));
+            var response = new BaseGenericResult<IEnumerable<PostDTO>>(true, (int)HttpStatusCode.OK, "Data Loading Success", postdto)
+            {
+                Meta = metadata
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return StatusCode(response.StatusCode, response);
- 
+
             #region Old Syntax
 
             //var postdto = Posts.Select(x => new PostDTO
@@ -67,7 +70,11 @@ namespace SocialMedia.Api.Controllers
         #endregion
 
         #region Get Post (id:int)
-
+        /// <summary>
+        /// return post by Id
+        /// </summary>
+        /// <param name="id">using id to return post </param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPost(int id)
         {
@@ -108,7 +115,11 @@ namespace SocialMedia.Api.Controllers
         #endregion
 
         #region Insert Post
-
+        /// <summary>
+        ///  Insert Post
+        /// </summary>
+        /// <param name="postDTO">Dto to Insert Post</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post(PostDTO postDTO)
         {
@@ -142,7 +153,12 @@ namespace SocialMedia.Api.Controllers
         #endregion
 
         #region Edit Post
-
+        /// <summary>
+        ///    Edit Post
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="postDto"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> Put(int id, PostDTO postDto)
         {
@@ -160,7 +176,11 @@ namespace SocialMedia.Api.Controllers
         #endregion
 
         #region Delete Post
-
+        /// <summary>
+        ///   Delete Post
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

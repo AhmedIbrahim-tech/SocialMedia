@@ -15,7 +15,12 @@ public class PostServices : IPostServices
 
     public PagedList<Post> GetPosts(PostQueryFilter filters)
     {
+
         var posts = _unitOfWork.PostRepository.GetAll();
+
+        filters.PageNumber = filters.PageNumber == 0 ? 1 : filters.PageNumber;
+        filters.PageSize = filters.PageSize == 0 ? 10 : filters.PageSize;
+
         if (filters.UserId != null)
         {
             posts = posts.Where(x => x.UserId == filters.UserId);

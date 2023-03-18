@@ -12,3 +12,6 @@ global using SocialMedia.Core.DTOS;
 global using SocialMedia.Core.Responses;
 global using SocialMedia.Core.Services;
 global using SocialMedia.Infrastructure.Filters;
+global using Newtonsoft.Json;
+global using SocialMedia.Core.CustomEntities;
+global using SocialMedia.Core.QueryFilters;

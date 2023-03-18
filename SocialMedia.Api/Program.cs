@@ -1,5 +1,7 @@
 
 
+using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 #region Model State Invalid
 
@@ -23,6 +24,7 @@ builder.Services.AddControllers(options =>
 .AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 });
 
 
@@ -66,6 +68,23 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 #endregion
 
+#region Swagger Doc
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Social Media"
+    });
+
+
+    var xmlfile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlpath = Path.Combine(AppContext.BaseDirectory, xmlfile);
+    options.IncludeXmlComments(xmlpath);
+});
+
+#endregion
 
 
 var app = builder.Build();
