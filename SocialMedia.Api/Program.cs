@@ -11,12 +11,15 @@ builder.Services.AddSwaggerGen();
 
 #region Model State Invalid
 
-builder.Services.AddControllers()
-// To Filter ModelState Invalid
-.ConfigureApiBehaviorOptions(options =>
+builder.Services.AddControllers(options =>
 {
-    options.SuppressModelStateInvalidFilter = true;
+    options.Filters.Add<GlobalExceptionFilter>();
 })
+// To Filter ModelState Invalid
+//.ConfigureApiBehaviorOptions(options =>
+//{
+//    options.SuppressModelStateInvalidFilter = true;
+//})
 .AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

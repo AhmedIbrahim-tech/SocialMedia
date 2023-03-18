@@ -4,16 +4,15 @@
 public class PostServices : IPostServices
 {
     private readonly IUnitOfWork _unitOfWork;
-    //private readonly IGenericRepository<User> _userRepository;
 
     public PostServices(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<Post>> GetPosts()
+    public IEnumerable<Post> GetPosts()
     {
-        return await _unitOfWork.PostRepository.GetAll();
+        return _unitOfWork.PostRepository.GetAll();
     }
 
     public async Task<Post> GetPost(int id)
@@ -29,7 +28,9 @@ public class PostServices : IPostServices
 
     public async Task<bool> EditPost(Post dto)
     {
-        return await _unitOfWork.PostRepository.EditPost(dto);
+        await _unitOfWork.PostRepository.Edit(dto);
+        await _unitOfWork.SaveChangeAsync();
+        return true;
     }
 
     public async Task<bool> InsertPost(Post dto)
@@ -38,22 +39,26 @@ public class PostServices : IPostServices
         if (currentUser == null) throw new BusinessExceptions("User doesn't exist");
         if (dto.Description.Contains("sex")) { throw new BusinessExceptions("This's Content not allowed"); }
 
-        //var userPost = await _unitOfWork.PostRepository.GetPostsbyUser(post.UserId);
-        //if (userPost.Count() < 10)
-        //{
-        //    var lastPost = userPost.OrderByDescending(x => x.Date).FirstOrDefault();
-        //    if ((DateTime.Now - lastPost.Date).TotalDays < 7)
-        //    {
-        //        throw new BusinessExceptions("You are not able to Publish the Post");
-        //    }
-        //}
-        return await _unitOfWork.PostRepository.InsertPost(dto);
+        var userPost = await _unitOfWork.PostRepository.GetPostsbyUser(dto.UserId);
+        if (userPost.Count() < 10)
+        {
+            var lastPost = userPost.OrderByDescending(x => x.Date).FirstOrDefault();
+            if ((DateTime.Now - lastPost.Date).TotalDays < 7)
+            {
+                throw new BusinessExceptions("You are not able to Publish the Post");
+            }
+        }
+        await _unitOfWork.PostRepository.Add(dto);
+        await _unitOfWork.SaveChangeAsync();
+        return true;
     }
 
 
     public async Task<bool> DeletePost(int id)
     {
-        return await _unitOfWork.PostRepository.DeletePost(id);
+        await _unitOfWork.PostRepository.Delete(id);
+        await _unitOfWork.SaveChangeAsync();
+        return true;
     }
 
 

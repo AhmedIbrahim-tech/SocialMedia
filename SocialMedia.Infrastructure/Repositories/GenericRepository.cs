@@ -10,9 +10,9 @@ namespace SocialMedia.Infrastructure.Repositories
             this._context = context;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            return _context.Set<T>().AsEnumerable();
         }
 
         public async Task<T> GetById(int id)
@@ -20,24 +20,20 @@ namespace SocialMedia.Infrastructure.Repositories
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task<int> Add(T entity)
+        public async Task Add(T entity)
         {
             _context.Set<T>().AddAsync(entity);
-            return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> Edit(T entity)
+        public async Task Edit(T entity)
         {
             _context.Set<T>().Update(entity);
-            return await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Delete(int id)
         {
             T CurrentEntity = await GetById(id);
             _context.Set<T>().Remove(CurrentEntity);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
         }
     }
 }
