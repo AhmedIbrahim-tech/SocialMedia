@@ -1,6 +1,6 @@
-# SocialMedia
+# Social Media
 
-## This's a Demo Project 
+## This's a Demo Project (.NET API)
 
 
 ##[Features of This Project]
