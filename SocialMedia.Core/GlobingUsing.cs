@@ -7,3 +7,6 @@ global using SocialMedia.Core.Interfaces.Services;
 global using SocialMedia.Core.Exceptions;
 global using SocialMedia.Core.QueryFilters;
 global using SocialMedia.Core.CustomEntities;
+global using SocialMedia.Core.Interfaces;
+global using SocialMedia.Core.Options;
+global using System.Security.Cryptography;

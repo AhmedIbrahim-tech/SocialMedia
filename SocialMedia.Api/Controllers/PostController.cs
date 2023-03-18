@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace SocialMedia.Api.Controllers
 {
     #region Fields
 
+    [Authorize]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase

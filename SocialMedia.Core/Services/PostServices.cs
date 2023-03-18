@@ -52,6 +52,12 @@ public class PostServices : IPostServices
 
     public async Task<bool> EditPost(Post dto)
     {
+        var currentpost = await _unitOfWork.PostRepository.GetById(dto.Id);
+        if (currentpost != null)
+        {
+            currentpost.Description = dto.Description;
+            currentpost.Image = dto.Image;
+        }
         await _unitOfWork.PostRepository.Edit(dto);
         await _unitOfWork.SaveChangesAsync();
         return true;

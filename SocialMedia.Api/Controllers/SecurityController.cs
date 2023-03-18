@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SocialMedia.Core.DTOS;
-using SocialMedia.Core.Enumerations;
-using System.Net;
+﻿using System.Net;
 
 namespace SocialMedia.Api.Controllers
 {
@@ -14,14 +10,13 @@ namespace SocialMedia.Api.Controllers
     {
         private readonly ISecurityService _securityService;
         private readonly IMapper _mapper;
-        //private readonly IPasswordService _passwordService;
+        private readonly IPasswordService _passwordService;
 
-        public SecurityController(ISecurityService securityService, IMapper mapper)
-            //, IPasswordService passwordService
+        public SecurityController(ISecurityService securityService, IMapper mapper, IPasswordService passwordService)
         {
             _securityService = securityService;
             _mapper = mapper;
-            //_passwordService = passwordService;
+            _passwordService = passwordService;
         }
 
         [HttpPost]
@@ -29,7 +24,7 @@ namespace SocialMedia.Api.Controllers
         {
             var security = _mapper.Map<Security>(securityDto);
 
-            //security.Password = _passwordService.Hash(security.Password);
+            security.Password = _passwordService.Hash(security.Password); // Hash Password
             await _securityService.RegisterUser(security);
 
             securityDto = _mapper.Map<SecurityDto>(security);

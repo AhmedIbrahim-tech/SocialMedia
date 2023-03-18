@@ -1,10 +1,4 @@
 
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.Configure<PasswordOptions>(builder.Configuration.GetSection("PasswordOptions"));
 
 #region Model State Invalid
 
@@ -61,6 +57,8 @@ builder.Services.AddTransient<IPostServices, PostServices>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+
 //builder.Services.AddTransient<IPostRepository, PostRepository>();
 //builder.Services.AddTransient<IUserRepository, UserRepository>();
 //builder.Services.AddScoped<ISecurityRepository, SecurityRepository>();
